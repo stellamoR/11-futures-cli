@@ -1,4 +1,4 @@
-_This is an assignment to the class [Programmieren 3](https://hsro-inf-prg3.github.io) at the [Technical University of Applied Sciences Rosenheim](https://www.th-rosenheim.de)._
+_This is an assignment to the [Software Architecture](https://ohm-softa.github.io) class at the [Technical University of Applied Sciences Nuremberg](http://www.th-nuernberg.de)._
 
 # Assignment 11: Futures - CLI variant
 
