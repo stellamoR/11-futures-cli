@@ -10,7 +10,7 @@ Futures are a feature of Java 8 and can be compared to the concept of _promises_
 The internet contains lots of good articles about `Future<>` and `CompletableFuture<>` in Java.
 For example [this one](http://www.deadcoderising.com/java8-writing-asynchronous-code-with-completablefuture/) covers everything you need to know for this assignment.
 
-_This is the CLI variant of the assignment. There's also an [Android variant](https://github.com/hsro-inf-prg3/11-futures-android) which covers the same concepts. **You don't have to implement both!** If you want to switch between them you should be able to copy most of the code you already wrote (except a few platform adoptions)._
+_This is the CLI variant of the assignment. There's also an [Android variant](https://github.com/ohm-softa/11-futures-android) which covers the same concepts. **You don't have to implement both!** If you want to switch between them you should be able to copy most of the code you already wrote (except a few platform adoptions)._
 
 ## Setup
 
