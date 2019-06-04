@@ -1,7 +1,7 @@
-package de.thro.inf.prg3.a11;
+package ohm.softa.a11;
 
-import de.thro.inf.prg3.a11.openmensa.OpenMensaAPI;
-import de.thro.inf.prg3.a11.openmensa.OpenMensaAPIService;
+import ohm.softa.a11.openmensa.OpenMensaAPI;
+import ohm.softa.a11.openmensa.OpenMensaAPIService;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

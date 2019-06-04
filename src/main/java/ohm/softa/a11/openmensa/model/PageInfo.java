@@ -1,4 +1,4 @@
-package de.thro.inf.prg3.a11.openmensa.model;
+package ohm.softa.a11.openmensa.model;
 
 import okhttp3.Headers;
 import retrofit2.Response;

@@ -1,8 +1,8 @@
-package de.thro.inf.prg3.a11.tests;
+package ohm.softa.a11.tests;
 
-import de.thro.inf.prg3.a11.openmensa.OpenMensaAPI;
-import de.thro.inf.prg3.a11.openmensa.OpenMensaAPIService;
-import de.thro.inf.prg3.a11.openmensa.model.PageInfo;
+import ohm.softa.a11.openmensa.OpenMensaAPI;
+import ohm.softa.a11.openmensa.OpenMensaAPIService;
+import ohm.softa.a11.openmensa.model.PageInfo;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Test;

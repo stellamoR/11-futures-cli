@@ -1,4 +1,4 @@
-package de.thro.inf.prg3.a11.openmensa.model;
+package ohm.softa.a11.openmensa.model;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
