@@ -2,7 +2,6 @@ _This is an assignment to the [Software Architecture](https://ohm-softa.github.i
 
 # Assignment 11: Futures - CLI variant
 
-[![](https://travis-ci.org/hsro-inf-prg3/11-futures-cli.svg?branch=master)](https://travis-ci.org/hsro-inf-prg3/11-futures-cli)
 
 This assignment covers the more advanced multithreading topics _futures_ and _future chaining_.
 Futures are a feature of Java 8 and can be compared to the concept of _promises_ in JavaScript.
@@ -12,13 +11,13 @@ For example [this one](http://www.deadcoderising.com/java8-writing-asynchronous-
 
 _This is the CLI variant of the assignment. There's also an [Android variant](https://github.com/ohm-softa/11-futures-android) which covers the same concepts. **You don't have to implement both!** If you want to switch between them you should be able to copy most of the code you already wrote (except a few platform adoptions)._
 
-## Setup
 
-1. Create a fork of this repository (button in the right upper corner)
-1. Clone the project (get the link by clicking the green _Clone or download button_)
-1. Import the project to your **IntelliJ**
+## Retrofit and `CompletableFuture`s
 
-_Remark: the given unit tests won't succeed until you have completed the first part of this assignment as they require the `CompletableFuture<>` Call Adapter registered in Retrofit!_
+Inspect the interface `ohm.softa.a11.openmensa.OpenMensaAPI`. 
+The method return types have been changed from `Call<>` to `CompletableFuture<>`, a built-in way to leverage asynchronous programming via futures.
+ 
+
 
 ## Retrieving all canteens
 
@@ -38,13 +37,11 @@ The following flow chart shows how to proceed :
 ### Retrieve the first page of canteens 
 
 Use the method `getCanteens()` of the OpenMensaAPI to retrieve the fist page of canteens (without index).
-The method returns an instance of `Response<List<Canteen>>`.
+The future returns an instance of `Response<List<Canteen>>`.
 That might be a little bit confusing but the OpenMensaAPI does not expose a dedicated pagination endpoint to retrieve the total count of items or the total count of pages but exposes this information in the response headers (`X-Total-Pages`, `X-Total-Count`, ...).
 To be able to extract this information you need the `Response<>` wrapper because the wrapper includes a reference to the headers.
-
-### Extract the pagination information
-
-There's a given utility class `PageInfo` which extracts the pagination information from a generic `Response<>` object. To create a `PageInfo` instance use the static factory method `PageInfo.extractFromResponse(...)`.
+There's a given utility class `PageInfo` which extracts the pagination information from a generic `Response<>` object.
+To create a `PageInfo` instance use the static factory method `PageInfo.extractFromResponse(...)`.
 
 ### Retrieve the remaining pages
 
