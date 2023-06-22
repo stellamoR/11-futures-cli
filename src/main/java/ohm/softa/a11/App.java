@@ -2,14 +2,18 @@ package ohm.softa.a11;
 
 import ohm.softa.a11.openmensa.OpenMensaAPI;
 import ohm.softa.a11.openmensa.OpenMensaAPIService;
+import ohm.softa.a11.openmensa.model.Canteen;
+import ohm.softa.a11.openmensa.model.PageInfo;
+import retrofit2.Response;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
-import java.util.Scanner;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.IntStream;
+
+
+// import static jdk.internal.org.jline.reader.impl.LineReaderImpl.CompletionType.List;
 
 /**
  * @author Peter Kurfer
@@ -50,7 +54,37 @@ public class App {
 	}
 
 	private static void printCanteens() {
-		System.out.print("Fetching canteens [");
+
+		System.out.println("Fetching canteens [");
+		try {
+			// hiermit läuft doch nichts parallel, wozu denn dann also? Ich brauche ja das Objekt jetzt, nicht erst später
+			Response<List<Canteen>> resp = openMensaAPI.getCanteens().get();
+			PageInfo pi = PageInfo.extractFromResponse(resp);
+
+
+			ArrayList<Canteen> currPage  = (ArrayList<Canteen>) resp.body();
+			for(int r = 1; r <= pi.getTotalCountOfPages(); r++){
+				if(r >1)
+					currPage = (ArrayList<Canteen>) openMensaAPI.getCanteens(r).get();
+
+				for(int j = 0; j <= currPage.size()/5; j++){
+					String line = "";
+					for(int i = 0; i <5; i++){
+						if(j*5 + i < currPage.size())
+							line += currPage.get(j*5 + i).getName() + ", ";
+					}
+					System.out.println(line);
+				}
+			}
+
+		} catch (InterruptedException e) {
+			throw new RuntimeException(e);
+		} catch (ExecutionException e) {
+			throw new RuntimeException(e);
+		}
+
+		System.out.println("]");
+
 		/* TODO fetch all canteens and print them to STDOUT
 		 * at first get a page without an index to be able to extract the required pagination information
 		 * afterwards you can iterate the remaining pages
