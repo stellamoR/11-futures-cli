@@ -9,7 +9,10 @@ import retrofit2.Response;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.function.BiFunction;
+import java.util.function.Supplier;
 import java.util.stream.IntStream;
 
 
@@ -53,15 +56,59 @@ public class App {
 		} while (true);
 	}
 
-	private static void printCanteens() {
+	private static void printCanteens() throws ExecutionException, InterruptedException {
 
 		System.out.println("Fetching canteens [");
-		try {
+
 			// hiermit läuft doch nichts parallel, wozu denn dann also? Ich brauche ja das Objekt jetzt, nicht erst später
-			Response<List<Canteen>> resp = openMensaAPI.getCanteens().get();
+		CompletableFuture<Response<List<Canteen>>> cf1 = openMensaAPI.getCanteens();
+		List<Canteen> OUT = cf1.thenApply((Response<List<Canteen>> resp) -> {
 			PageInfo pi = PageInfo.extractFromResponse(resp);
+			int n_pages =  pi.getTotalCountOfPages();
+			List<Canteen> firstList = resp.body();
+
+			List<Canteen> newPage = (ArrayList) resp.body();
+			CompletableFuture<List<Canteen>> curr_cf = cf1.thenApply(BiFunction<Response<List<Canteen>>, >);
+			while(newPage != null){
+				curr_cf = cfi.add(CompletableFuture.supplyAsync(openMensaAPI.getCanteens(i)));
+
+			}
+			CompletableFuture<List<Canteen>> remainingCanteenFuture = null;
+			for (int i = 2; i <n_pages ; i++) {
+				if(remainingCanteenFuture == null){
+					remainingCanteenFuture = openMensaAPI.getCanteens(i);
+				}else{
+					remainingCanteenFuture = remainingCanteenFuture.thenCombine(openMensaAPI.getCanteens(i), ListUtil::mergeLists)
+				}
+			}
+			try{
+
+				firstList.addAll(remainingCanteenFuture.get());
+			}catch(InterruptedException|ExecutionException){
+
+			}
+
+			return firstList;
 
 
+		}).thenAccept((List<Canteen> canteens) ->{for(Canteen c : canteens){
+			System.out.println(canteen.getName);
+		}
+
+		}).get();
+		ArrayList<CompletableFuture<List<Canteen>>> cfi = new ArrayList<CompletableFuture<List<Canteen>>>();
+		for (int i = 2; i < n_pages-2; i++) {
+			cfi.add(CompletableFuture.supplyAsync(openMensaAPI.getCanteens(i)));
+		}
+
+		// rechnen lassen? sonst Parallel egal
+		for (int i = 0; i < n_pages ; i++) {
+
+		}
+
+
+			/*
+			try {
 			ArrayList<Canteen> currPage  = (ArrayList<Canteen>) resp.body();
 			for(int r = 1; r <= pi.getTotalCountOfPages(); r++){
 				if(r >1)
@@ -84,7 +131,7 @@ public class App {
 		}
 
 		System.out.println("]");
-
+	*/
 		/* TODO fetch all canteens and print them to STDOUT
 		 * at first get a page without an index to be able to extract the required pagination information
 		 * afterwards you can iterate the remaining pages
